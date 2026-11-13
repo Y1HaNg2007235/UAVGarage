@@ -55,6 +55,34 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for BattRotate */
+osThreadId_t BattRotateHandle;
+const osThreadAttr_t BattRotate_attributes = {
+  .name = "BattRotate",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
+};
+/* Definitions for BattPush */
+osThreadId_t BattPushHandle;
+const osThreadAttr_t BattPush_attributes = {
+  .name = "BattPush",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
+};
+/* Definitions for rcProtocolTask */
+osThreadId_t rcProtocolTaskHandle;
+const osThreadAttr_t rcProtocolTask_attributes = {
+  .name = "rcProtocolTask",
+  .stack_size = 256 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for DUVTransmit */
+osThreadId_t DUVTransmitHandle;
+const osThreadAttr_t DUVTransmit_attributes = {
+  .name = "DUVTransmit",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -62,6 +90,10 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
+extern void StartBattRotate(void *argument);
+extern void StartBattPush(void *argument);
+extern void StartrcProtocolTask(void *argument);
+extern void StartDUVTransmit(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -94,6 +126,18 @@ void MX_FREERTOS_Init(void) {
   /* Create the thread(s) */
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of BattRotate */
+  BattRotateHandle = osThreadNew(StartBattRotate, NULL, &BattRotate_attributes);
+
+  /* creation of BattPush */
+  BattPushHandle = osThreadNew(StartBattPush, NULL, &BattPush_attributes);
+
+  /* creation of rcProtocolTask */
+  rcProtocolTaskHandle = osThreadNew(StartrcProtocolTask, NULL, &rcProtocolTask_attributes);
+
+  /* creation of DUVTransmit */
+  DUVTransmitHandle = osThreadNew(StartDUVTransmit, NULL, &DUVTransmit_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
