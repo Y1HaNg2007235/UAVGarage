@@ -1,0 +1,16 @@
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/tasks.c
+uavgarage\tasks.o: D:\Program_Files_2\KEIL\KEIL_V5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+uavgarage\tasks.o: D:\Program_Files_2\KEIL\KEIL_V5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+uavgarage\tasks.o: D:\Program_Files_2\KEIL\KEIL_V5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+uavgarage\tasks.o: D:\Program_Files_2\KEIL\KEIL_V5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+uavgarage\tasks.o: ../Core/Inc/FreeRTOSConfig.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+uavgarage\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stack_macros.h

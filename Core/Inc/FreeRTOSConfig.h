@@ -166,6 +166,21 @@ standard names. */
 
 /* USER CODE BEGIN Defines */
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
+#define configGENERATE_RUN_TIME_STATS 1
+#define TASK_STATS_TIMER_HZ 100000U
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() TaskStats_StartTimer()
+#define portGET_RUN_TIME_COUNTER_VALUE() TaskStats_ReadTimer()
+
+#if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
+#ifdef __cplusplus
+extern "C" {
+#endif
+void TaskStats_StartTimer(void);
+uint32_t TaskStats_ReadTimer(void);
+#ifdef __cplusplus
+}
+#endif
+#endif
 /* USER CODE END Defines */
 
 #endif /* FREERTOS_CONFIG_H */

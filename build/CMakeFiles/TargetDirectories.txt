@@ -1,0 +1,3 @@
+G:/Admin/DesktopFile/UAVGarage/build/CMakeFiles/ALL_BUILD.dir
+G:/Admin/DesktopFile/UAVGarage/build/CMakeFiles/ZERO_CHECK.dir
+G:/Admin/DesktopFile/UAVGarage/build/Source/CMakeFiles/cmsis-nn.dir

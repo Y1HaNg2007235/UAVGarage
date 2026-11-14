@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "App.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,8 +92,8 @@ const osThreadAttr_t DUVTransmit_attributes = {
 void StartDefaultTask(void *argument);
 extern void StartBattRotate(void *argument);
 extern void StartBattPush(void *argument);
-extern void StartrcProtocolTask(void *argument);
-extern void StartDUVTransmit(void *argument);
+void StartrcProtocolTask(void *argument);
+void StartDUVTransmit(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -104,7 +104,10 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
-
+  if (!App_Init())
+  {
+    Error_Handler();
+  }
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -165,6 +168,50 @@ void StartDefaultTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartDefaultTask */
+}
+
+/* USER CODE BEGIN Header_StartBattRotate */
+/* StartBattRotate 任务函数体定义在 Application/App.cpp 中，此处仅保留 extern 声明 */
+/* USER CODE END Header_StartBattRotate */
+
+/* USER CODE BEGIN Header_StartBattPush */
+/* StartBattPush 任务函数体定义在 Application/App.cpp 中，此处仅保留 extern 声明 */
+/* USER CODE END Header_StartBattPush */
+
+/* USER CODE BEGIN Header_StartrcProtocolTask */
+/**
+* @brief Function implementing the rcProtocolTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartrcProtocolTask */
+void StartrcProtocolTask(void *argument)
+{
+  /* USER CODE BEGIN StartrcProtocolTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartrcProtocolTask */
+}
+
+/* USER CODE BEGIN Header_StartDUVTransmit */
+/**
+* @brief Function implementing the DUVTransmit thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartDUVTransmit */
+void StartDUVTransmit(void *argument)
+{
+  /* USER CODE BEGIN StartDUVTransmit */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartDUVTransmit */
 }
 
 /* Private application code --------------------------------------------------*/
