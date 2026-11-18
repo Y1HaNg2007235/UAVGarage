@@ -1,0 +1,15 @@
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/queue.c
+uavgarage\queue.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdlib.h
+uavgarage\queue.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\string.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+uavgarage\queue.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stddef.h
+uavgarage\queue.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdint.h
+uavgarage\queue.o: ../Core/Inc/FreeRTOSConfig.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+uavgarage\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h

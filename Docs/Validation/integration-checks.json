@@ -1,0 +1,168 @@
+{
+  "verifiedAt": "2026-11-15T13:38:14.393Z",
+  "checks": [
+    {
+      "check": "HAL UART5 BaudRate=100000",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 WordLength=UART_WORDLENGTH_9B",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 StopBits=UART_STOPBITS_2",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 Parity=UART_PARITY_EVEN",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 Mode=UART_MODE_RX",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 HwFlowCtl=UART_HWCONTROL_NONE",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 OverSampling=UART_OVERSAMPLING_16",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 ClockPrescaler=UART_PRESCALER_DIV1",
+      "result": "PASS"
+    },
+    {
+      "check": "HAL UART5 software RX inversion disabled",
+      "result": "PASS"
+    },
+    {
+      "check": "UART5 RX uses PD2 AF8 without TX",
+      "result": "PASS"
+    },
+    {
+      "check": "UART5 interrupt enabled at priority 5",
+      "result": "PASS"
+    },
+    {
+      "check": "UART5 initializes after UART4 and USART6",
+      "result": "PASS"
+    },
+    {
+      "check": "One UART5 interrupt definition and one header prototype",
+      "result": "PASS"
+    },
+    {
+      "check": "Existing UART callback dispatches UART5 and retains line receiver",
+      "result": "PASS"
+    },
+    {
+      "check": "Existing rcProtocolTask calls remote init and update",
+      "result": "PASS"
+    },
+    {
+      "check": "UART error callback defined in receiver",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC PD2.Signal=UART5_RX",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC PD2.Mode=Asynchronous",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC UART5.BaudRate=100000",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC UART5.WordLength=WORDLENGTH_9B",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC UART5.StopBits=UART_STOPBITS_2",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC UART5.Parity=PARITY_EVEN",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC UART5.Mode=MODE_RX",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC UART5 interrupt enabled at priority 5",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC Mcu.IP indices contiguous",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC Mcu.IP values unique",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC Mcu.Pin indices contiguous",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC Mcu.Pin values unique",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC has no UART5 TX pin",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC enum WORDLENGTH_9B present in installed CubeMX UART definitions",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC enum UART_STOPBITS_2 present in installed CubeMX UART definitions",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC enum PARITY_EVEN present in installed CubeMX UART definitions",
+      "result": "PASS"
+    },
+    {
+      "check": "IOC enum MODE_RX present in installed CubeMX UART definitions",
+      "result": "PASS"
+    },
+    {
+      "check": "Keil includes Libraries/Remote/SbusDecoder.cpp once",
+      "result": "PASS"
+    },
+    {
+      "check": "Keil includes Libraries/Remote/StickTarget.cpp once",
+      "result": "PASS"
+    },
+    {
+      "check": "Keil includes Libraries/Remote/SbusUartReceiver.cpp once",
+      "result": "PASS"
+    },
+    {
+      "check": "Keil includes Application/Tasks/RemoteControl.cpp once",
+      "result": "PASS"
+    },
+    {
+      "check": "Keil includes no host tests or stubs",
+      "result": "PASS"
+    },
+    {
+      "check": "Keil compiler remains ARMCC5.06u7 build960",
+      "result": "PASS"
+    },
+    {
+      "check": "All Keil source/header references exist; pre-existing missing text placeholders retained",
+      "result": "PASS"
+    }
+  ],
+  "inheritedMissingReferences": [
+    "../Application/Tasks/新建文件夹/新建 文本文档.txt"
+  ]
+}

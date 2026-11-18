@@ -1,0 +1,12 @@
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+uavgarage\port.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stddef.h
+uavgarage\port.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdint.h
+uavgarage\port.o: ../Core/Inc/FreeRTOSConfig.h
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+uavgarage\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

@@ -1,0 +1,3 @@
+PASS SBUS packing, resynchronization, status flags, expiry and timestamp wrap
+PASS stick direction, deadband, target rate, hold, loss and angle wrap
+ALL PASSED (34858 assertions)

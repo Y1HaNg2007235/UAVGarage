@@ -1,0 +1,316 @@
+diff --git a/Core/Inc/stm32h7xx_it.h b/Core/Inc/stm32h7xx_it.h
+index 28e1a60..27fb1c6 100644
+--- a/Core/Inc/stm32h7xx_it.h
++++ b/Core/Inc/stm32h7xx_it.h
+@@ -56,7 +56,8 @@ void DMA1_Stream0_IRQHandler(void);
+ void DMA1_Stream1_IRQHandler(void);
+ void FDCAN1_IT0_IRQHandler(void);
+ void FDCAN2_IT0_IRQHandler(void);
+-void UART4_IRQHandler(void);
++void UART4_IRQHandler(void);
++void UART5_IRQHandler(void);
+ void USART6_IRQHandler(void);
+ void TIM17_IRQHandler(void);
+ void FDCAN3_IT0_IRQHandler(void);
+diff --git a/Core/Inc/usart.h b/Core/Inc/usart.h
+index c6a2500..b0370d8 100644
+--- a/Core/Inc/usart.h
++++ b/Core/Inc/usart.h
+@@ -32,6 +32,7 @@ extern "C" {
+ 
+ /* USER CODE END Includes */
+ 
++extern UART_HandleTypeDef huart5;
+ extern UART_HandleTypeDef huart4;
+ 
+ extern UART_HandleTypeDef huart6;
+@@ -40,6 +41,7 @@ extern UART_HandleTypeDef huart6;
+ 
+ /* USER CODE END Private defines */
+ 
++void MX_UART5_Init(void);
+ void MX_UART4_Init(void);
+ void MX_USART6_UART_Init(void);
+ 
+diff --git a/Core/Src/freertos.c b/Core/Src/freertos.c
+index 5233831..dbccdeb 100644
+--- a/Core/Src/freertos.c
++++ b/Core/Src/freertos.c
+@@ -27,6 +27,7 @@
+ /* Private includes ----------------------------------------------------------*/
+ /* USER CODE BEGIN Includes */
+ #include "App.h"
++#include "Application/Tasks/RemoteControl.h"
+ /* USER CODE END Includes */
+ 
+ /* Private typedef -----------------------------------------------------------*/
+@@ -188,9 +189,11 @@ void StartDefaultTask(void *argument)
+ void StartrcProtocolTask(void *argument)
+ {
+   /* USER CODE BEGIN StartrcProtocolTask */
++  RemoteControl_Init();
+   /* Infinite loop */
+   for(;;)
+   {
++    RemoteControl_Update();
+     osDelay(1);
+   }
+   /* USER CODE END StartrcProtocolTask */
+diff --git a/Core/Src/main.c b/Core/Src/main.c
+index 00feffe..6dff363 100644
+--- a/Core/Src/main.c
++++ b/Core/Src/main.c
+@@ -105,6 +105,7 @@ int main(void)
+   MX_TIM3_Init();
+   MX_UART4_Init();
+   MX_USART6_UART_Init();
++  MX_UART5_Init();
+   MX_FDCAN1_Init();
+   MX_FDCAN2_Init();
+   MX_FDCAN3_Init();
+diff --git a/Core/Src/stm32h7xx_it.c b/Core/Src/stm32h7xx_it.c
+index 7a21281..4378b00 100644
+--- a/Core/Src/stm32h7xx_it.c
++++ b/Core/Src/stm32h7xx_it.c
+@@ -60,6 +60,7 @@ extern FDCAN_HandleTypeDef hfdcan2;
+ extern FDCAN_HandleTypeDef hfdcan3;
+ extern DMA_HandleTypeDef hdma_uart4_rx;
+ extern DMA_HandleTypeDef hdma_usart6_rx;
++extern UART_HandleTypeDef huart5;
+ extern UART_HandleTypeDef huart4;
+ extern UART_HandleTypeDef huart6;
+ extern TIM_HandleTypeDef htim17;
+@@ -236,6 +237,20 @@ void UART4_IRQHandler(void)
+   /* USER CODE END UART4_IRQn 1 */
+ }
+ 
++/**
++  * @brief This function handles UART5 global interrupt.
++  */
++void UART5_IRQHandler(void)
++{
++  /* USER CODE BEGIN UART5_IRQn 0 */
++
++  /* USER CODE END UART5_IRQn 0 */
++  HAL_UART_IRQHandler(&huart5);
++  /* USER CODE BEGIN UART5_IRQn 1 */
++
++  /* USER CODE END UART5_IRQn 1 */
++}
++
+ /**
+   * @brief This function handles USART6 global interrupt.
+   */
+diff --git a/Core/Src/usart.c b/Core/Src/usart.c
+index 66fc8b0..d265b95 100644
+--- a/Core/Src/usart.c
++++ b/Core/Src/usart.c
+@@ -24,11 +24,31 @@
+ 
+ /* USER CODE END 0 */
+ 
++UART_HandleTypeDef huart5;
+ UART_HandleTypeDef huart4;
+ UART_HandleTypeDef huart6;
+ DMA_HandleTypeDef hdma_uart4_rx;
+ DMA_HandleTypeDef hdma_usart6_rx;
+ 
++/* S.BUS: MC02 onboard inverter -> PD2/UART5_RX, 100000 baud, 8E2. */
++void MX_UART5_Init(void)
++{
++  huart5.Instance = UART5;
++  huart5.Init.BaudRate = 100000;
++  huart5.Init.WordLength = UART_WORDLENGTH_9B; /* Eight data bits plus parity. */
++  huart5.Init.StopBits = UART_STOPBITS_2;
++  huart5.Init.Parity = UART_PARITY_EVEN;
++  huart5.Init.Mode = UART_MODE_RX;
++  huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
++  huart5.Init.OverSampling = UART_OVERSAMPLING_16;
++  huart5.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
++  huart5.Init.ClockPrescaler = UART_PRESCALER_DIV1;
++  huart5.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_RXINVERT_INIT;
++  huart5.AdvancedInit.RxPinLevelInvert = UART_ADVFEATURE_RXINV_DISABLE;
++  if (HAL_UART_Init(&huart5) != HAL_OK) { Error_Handler(); }
++  if (HAL_UARTEx_DisableFifoMode(&huart5) != HAL_OK) { Error_Handler(); }
++}
++
+ /* UART4 init function */
+ void MX_UART4_Init(void)
+ {
+@@ -122,7 +142,21 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
+ 
+   GPIO_InitTypeDef GPIO_InitStruct = {0};
+   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+-  if(uartHandle->Instance==UART4)
++  if(uartHandle->Instance==UART5)
++  {
++    /* Uses the existing USART234578 D2PCLK1 selection; other UART clocks unchanged. */
++    __HAL_RCC_UART5_CLK_ENABLE();
++    __HAL_RCC_GPIOD_CLK_ENABLE();
++    GPIO_InitStruct.Pin = GPIO_PIN_2;
++    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
++    GPIO_InitStruct.Pull = GPIO_NOPULL;
++    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
++    GPIO_InitStruct.Alternate = GPIO_AF8_UART5;
++    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
++    HAL_NVIC_SetPriority(UART5_IRQn, 5, 0);
++    HAL_NVIC_EnableIRQ(UART5_IRQn);
++  }
++  else if(uartHandle->Instance==UART4)
+   {
+   /* USER CODE BEGIN UART4_MspInit 0 */
+ 
+@@ -239,7 +273,13 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
+ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
+ {
+ 
+-  if(uartHandle->Instance==UART4)
++  if(uartHandle->Instance==UART5)
++  {
++    __HAL_RCC_UART5_CLK_DISABLE();
++    HAL_GPIO_DeInit(GPIOD, GPIO_PIN_2);
++    HAL_NVIC_DisableIRQ(UART5_IRQn);
++  }
++  else if(uartHandle->Instance==UART4)
+   {
+   /* USER CODE BEGIN UART4_MspDeInit 0 */
+ 
+diff --git a/Libraries/Serial/UartLineReceiver.cpp b/Libraries/Serial/UartLineReceiver.cpp
+index 1b108d0..fbd94a0 100644
+--- a/Libraries/Serial/UartLineReceiver.cpp
++++ b/Libraries/Serial/UartLineReceiver.cpp
+@@ -1,4 +1,5 @@
+ #include "UartLineReceiver.h"
++#include "Libraries/Remote/SbusUartReceiver.h"
+ #include "FreeRTOS.h"
+ #include "task.h"
+ 
+@@ -114,5 +115,12 @@ void UartLineReceiver::handleRxComplete(UART_HandleTypeDef *uart)
+ ***********************************************************************/
+ extern "C" void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+ {
+-    garage::UartLineReceiver::handleRxComplete(huart);
++    if (huart->Instance == UART5)
++    {
++        garage::SbusUartReceiver::handleRxComplete(huart);
++    }
++    else
++    {
++        garage::UartLineReceiver::handleRxComplete(huart);
++    }
+ }
+diff --git a/MDK-ARM/UAVGarage.uvprojx b/MDK-ARM/UAVGarage.uvprojx
+index efca3ce..e1691bb 100644
+--- a/MDK-ARM/UAVGarage.uvprojx
++++ b/MDK-ARM/UAVGarage.uvprojx
+@@ -797,6 +797,56 @@
+         <Group>
+           <GroupName>::CMSIS</GroupName>
+         </Group>
++        <Group>
++          <GroupName>RemoteControl-SBUS</GroupName>
++          <Files>
++            <File>
++              <FileName>SbusDecoder.cpp</FileName>
++              <FileType>8</FileType>
++              <FilePath>../Libraries/Remote/SbusDecoder.cpp</FilePath>
++            </File>
++            <File>
++              <FileName>SbusDecoder.h</FileName>
++              <FileType>5</FileType>
++              <FilePath>../Libraries/Remote/SbusDecoder.h</FilePath>
++            </File>
++            <File>
++              <FileName>StickTarget.cpp</FileName>
++              <FileType>8</FileType>
++              <FilePath>../Libraries/Remote/StickTarget.cpp</FilePath>
++            </File>
++            <File>
++              <FileName>StickTarget.h</FileName>
++              <FileType>5</FileType>
++              <FilePath>../Libraries/Remote/StickTarget.h</FilePath>
++            </File>
++            <File>
++              <FileName>SbusUartReceiver.cpp</FileName>
++              <FileType>8</FileType>
++              <FilePath>../Libraries/Remote/SbusUartReceiver.cpp</FilePath>
++            </File>
++            <File>
++              <FileName>SbusUartReceiver.h</FileName>
++              <FileType>5</FileType>
++              <FilePath>../Libraries/Remote/SbusUartReceiver.h</FilePath>
++            </File>
++            <File>
++              <FileName>RemoteControl.cpp</FileName>
++              <FileType>8</FileType>
++              <FilePath>../Application/Tasks/RemoteControl.cpp</FilePath>
++            </File>
++            <File>
++              <FileName>RemoteControl.h</FileName>
++              <FileType>5</FileType>
++              <FilePath>../Application/Tasks/RemoteControl.h</FilePath>
++            </File>
++            <File>
++              <FileName>RemoteConfig.h</FileName>
++              <FileType>5</FileType>
++              <FilePath>../Application/Tasks/RemoteConfig.h</FilePath>
++            </File>
++          </Files>
++        </Group>
+       </Groups>
+     </Target>
+   </Targets>
+diff --git a/UAVGarage.ioc b/UAVGarage.ioc
+index 20ae4d3..82a64bd 100644
+--- a/UAVGarage.ioc
++++ b/UAVGarage.ioc
+@@ -89,7 +89,8 @@ Mcu.IP6=FREERTOS
+ Mcu.IP7=MEMORYMAP
+ Mcu.IP8=NVIC
+ Mcu.IP9=RCC
+-Mcu.IPNb=17
++Mcu.IP17=UART5
++Mcu.IPNb=18
+ Mcu.Name=STM32H723VGTx
+ Mcu.Package=LQFP100
+ Mcu.Pin0=PC13
+@@ -119,7 +120,8 @@ Mcu.Pin6=PA0
+ Mcu.Pin7=PA1
+ Mcu.Pin8=PB2
+ Mcu.Pin9=PB10
+-Mcu.PinsNb=27
++Mcu.Pin27=PD2
++Mcu.PinsNb=28
+ Mcu.ThirdPartyNb=0
+ Mcu.UserConstants=
+ Mcu.UserName=STM32H723VGTx
+@@ -147,6 +149,7 @@ NVIC.TIM17_IRQn=true\:15\:0\:false\:false\:true\:false\:false\:true\:true
+ NVIC.TimeBase=TIM17_IRQn
+ NVIC.TimeBaseIP=TIM17
+ NVIC.UART4_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
++NVIC.UART5_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
+ NVIC.USART6_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
+ NVIC.UsageFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false\:false
+ PA0.GPIOParameters=GPIO_PuPd,GPIO_Label
+@@ -239,7 +242,7 @@ ProjectManager.ToolChainLocation=
+ ProjectManager.UAScriptAfterPath=
+ ProjectManager.UAScriptBeforePath=
+ ProjectManager.UnderRoot=false
+-ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_DMA_Init-DMA-false-HAL-true,4-MX_SPI2_Init-SPI2-false-HAL-true,5-MX_SPI3_Init-SPI3-false-HAL-true,6-MX_TIM2_Init-TIM2-false-HAL-true,7-MX_TIM3_Init-TIM3-false-HAL-true,8-MX_UART4_Init-UART4-false-HAL-true,9-MX_USART6_UART_Init-USART6-false-HAL-true,10-MX_FDCAN1_Init-FDCAN1-false-HAL-true,11-MX_FDCAN2_Init-FDCAN2-false-HAL-true,12-MX_FDCAN3_Init-FDCAN3-false-HAL-true,0-MX_CORTEX_M7_Init-CORTEX_M7-false-HAL-true
++ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_DMA_Init-DMA-false-HAL-true,4-MX_SPI2_Init-SPI2-false-HAL-true,5-MX_SPI3_Init-SPI3-false-HAL-true,6-MX_TIM2_Init-TIM2-false-HAL-true,7-MX_TIM3_Init-TIM3-false-HAL-true,8-MX_UART4_Init-UART4-false-HAL-true,9-MX_USART6_UART_Init-USART6-false-HAL-true,10-MX_FDCAN1_Init-FDCAN1-false-HAL-true,11-MX_FDCAN2_Init-FDCAN2-false-HAL-true,12-MX_FDCAN3_Init-FDCAN3-false-HAL-true,0-MX_CORTEX_M7_Init-CORTEX_M7-false-HAL-true,13-MX_UART5_Init-UART5-false-HAL-true
+ RCC.ADCFreq_Value=129000000
+ RCC.AHB12Freq_Value=240000000
+ RCC.AHB4Freq_Value=240000000
+@@ -351,3 +354,12 @@ VP_TIM3_VS_ClockSourceINT.Mode=Internal
+ VP_TIM3_VS_ClockSourceINT.Signal=TIM3_VS_ClockSourceINT
+ board=custom
+ rtos.0.ip=FREERTOS
++PD2.Locked=true
++PD2.Mode=Asynchronous
++PD2.Signal=UART5_RX
++UART5.BaudRate=100000
++UART5.WordLength=WORDLENGTH_9B
++UART5.StopBits=UART_STOPBITS_2
++UART5.Parity=PARITY_EVEN
++UART5.Mode=MODE_RX
++UART5.IPParameters=BaudRate,WordLength,StopBits,Parity,Mode

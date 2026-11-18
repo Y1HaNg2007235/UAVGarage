@@ -1,0 +1,1 @@
+ALL UART TESTS PASSED (589 assertions)

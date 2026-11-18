@@ -1,0 +1,14 @@
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
+uavgarage\stream_buffer.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stdint.h
+uavgarage\stream_buffer.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\string.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+uavgarage\stream_buffer.o: D:\Keil5\Core\ARM\ARMCC\Bin\..\include\stddef.h
+uavgarage\stream_buffer.o: ../Core/Inc/FreeRTOSConfig.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+uavgarage\stream_buffer.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stream_buffer.h

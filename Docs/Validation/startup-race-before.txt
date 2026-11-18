@@ -1,0 +1,2 @@
+initReturned=1 rxBytes=1 uartErrors=1 lastError=4 restarts=0 ready=1 receiveCalls=1 abortCalls=0
+FAIL: initialization overwrote the interrupt's error recovery request

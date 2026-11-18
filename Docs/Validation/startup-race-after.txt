@@ -1,0 +1,2 @@
+initReturned=0 rxBytes=1 uartErrors=1 lastError=4 restarts=1 ready=1 receiveCalls=2 abortCalls=1
+PASS: an error interrupt during initial receive setup recovers on the next poll
